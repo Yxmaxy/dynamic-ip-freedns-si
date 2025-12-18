@@ -1,9 +1,9 @@
-from check_ip import CheckIP
-from freedns import FreeDNS, RecordListInterface
+from public_ip import PublicIP
+from freedns import FreeDNS, FreeDNSRecordListService
 
 
 def main():
-    target_ip = CheckIP.get_current_ip()
+    target_ip = PublicIP.get_current_ip()
 
     response = input(f"Create record list for {target_ip} This will delete the current record list? (y/n)? ")
     if response != "y":
@@ -16,7 +16,7 @@ def main():
 
     for domain in domain_list:
         record_list = freedns.get_record_list(domain)
-        RecordListInterface.save_record_list(record_list)
+        FreeDNSRecordListService.save_record_list(record_list)
 
 
 if __name__ == "__main__":
