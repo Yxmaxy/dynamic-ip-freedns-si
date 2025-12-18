@@ -18,9 +18,9 @@ The main idea of the script is to automatically update the IP address of your se
     ```
 
 ### Create the `.env` file
-1. Copy the `.env.example` file to `.env`
+1. Copy the `.env-sample` file to `.env`
     ```bash
-    cp .env.example .env
+    cp .env-sample .env
     ```
 2. Fill in your FreeDNS.si username and password
     ```bash

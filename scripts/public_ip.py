@@ -1,3 +1,4 @@
+import os
 import logging
 import requests
 
@@ -22,6 +23,8 @@ class PublicIP:
 
     @staticmethod
     def get_previous_ip() -> str:
+        if not os.path.exists(get_data_path("current-ip.txt")):
+            return ""
         with open(get_data_path("current-ip.txt"), "r") as f:
             return f.read().strip()
 

@@ -1,13 +1,15 @@
 from public_ip import PublicIP
 from freedns import FreeDNS, FreeDNSRecordListService
+from data_utils import create_data_folder
 
 
 def main():
     target_ip = PublicIP.get_current_ip()
 
-    response = input(f"Create record list for {target_ip} This will delete the current record list? (y/n)? ")
-    if response != "y":
-        return
+    if not create_data_folder():
+        response = input(f"Create record list for {target_ip} This will delete the current record list? (y/n)? ")
+        if response != "y":
+            return
 
     freedns = FreeDNS()
 
