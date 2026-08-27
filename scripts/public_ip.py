@@ -1,5 +1,6 @@
 import os
 import logging
+import ipaddress
 import requests
 
 from data_utils import get_data_path
@@ -15,9 +16,22 @@ class PublicIP:
             "https://ifconfig.me/ip",
         ]
         for service in external_services:
-            response = requests.get(service)
-            if response.status_code == 200:
-                return response.text.strip()
+            try:
+                response = requests.get(service, timeout=30)
+            except requests.RequestException:
+                logger.warning("Could not reach %s", service, exc_info=True)
+                continue
+            if response.status_code != 200:
+                continue
+
+            current_ip = response.text.strip()
+            try:
+                ipaddress.ip_address(current_ip)
+            except ValueError:
+                logger.warning("%s returned a non-IP response", service)
+                continue
+
+            return current_ip
 
         raise Exception("No external service returned a valid IP")
 
